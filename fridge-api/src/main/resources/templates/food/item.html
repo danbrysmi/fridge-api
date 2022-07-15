@@ -15,28 +15,14 @@
 <main role="main" class="container">
 
     <div class="starter-template">
-        <h1>Fridge Contents:</h1>
+        <h1>Item #[[${itemId}]]'s Contents:</h1>
     </div>
-
-	<table>
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Type</th>
-			<th>Quantity</th>
-		</tr>
-    	<tr th:each="item : ${items}">
-    	
-    		<td>
-    		<a th:href="@{food/{id}(id=${item.id})}">[[${item.id}]]
-    		</a>
-    		</td>
-   			<td th:text="${item.name}"></td>
-   			<td th:text="${item.foodType}"></td>
-   			<td th:text="${item.quantity}"></td>
-		</tr>
 		
-		<p><a href="/food/add"><b>Add</b></a></p>
+	<p>Name: [[${itemName}]]</p>
+	<p>Type: [[${itemFoodType}]]</p>
+	<p>Quantity: [[${itemQuantity}]]</p>
+		
+	
 
 </main>
 <!-- /.container -->
