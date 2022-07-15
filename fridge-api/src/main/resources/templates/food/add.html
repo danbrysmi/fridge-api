@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Add a new food item</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<h1>New food</h1>
+    <form action="#" th:action="@{/food}" th:object="${item}" method="post">
+		<p>Name: <input type="text" th:field="*{name}" /></p>
+		<p>Type: <input type="text" th:field="*{foodType}" /></p>
+		<p>Quantity: <input type="number" th:field="*{quantity}" /></p>
+		<p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+	</form>
+</div>
+</body>
+</html>
