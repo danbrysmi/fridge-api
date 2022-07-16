@@ -34,8 +34,9 @@
    			<td th:text="${item.name}"></td>
    			<td th:text="${item.foodType}"></td>
    			<td th:text="${item.quantity}"></td>
+   			<td><a th:href="@{food/update/{id}(id=${item.id})}">Update</a></td>
 		</tr>
-		
+	</table>
 		<p><a href="/food/add"><b>Add</b></a></p>
 
 </main>

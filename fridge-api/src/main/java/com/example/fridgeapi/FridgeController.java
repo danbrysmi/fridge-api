@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import javax.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping(value="/food", produces = {MediaType.TEXT_HTML_VALUE})
@@ -38,6 +40,7 @@ public class FridgeController {
 		
 		if (selectedItem == null) {
 			selectedItem = new FridgeItem("empty", "empty", 404);
+			return "food/index";
 		}
 		model.addAttribute("itemId", id);
 		model.addAttribute("itemName", selectedItem.getName());
@@ -50,7 +53,39 @@ public class FridgeController {
 	@PostMapping
 	public String addEvent(@ModelAttribute FridgeItem item, Model model) {
 		model.addAttribute("item", item);
-		FridgeItem new_item = fridgeRepo.save(item);
+		fridgeRepo.save(item);
+		
+		return "redirect:/food";
+	}
+	
+	@GetMapping(value="/update/{id}")
+	public String updateItem(@PathVariable("id") long id, Model model) {
+		FridgeItem selectedItem = fridgeRepo.findById(id);
+		
+		if (selectedItem == null) {
+			return "food/index";
+		}
+		model.addAttribute("editItem", selectedItem);
+		//model.addAttribute("fridgeformmodel", new FridgeItemFormModel());
+		
+		return "food/update";
+	}
+	
+	@PostMapping(value="/update/{id}")
+	public String changeItem(@PathVariable("id") long id, @Valid FridgeItem item, BindingResult errors, Model model) {
+		FridgeItem selectedItem = fridgeRepo.findById(id);
+		
+		if (selectedItem == null) {
+			fridgeRepo.save(item);
+		}
+		else {
+			selectedItem.setName(item.getName());
+			selectedItem.setFoodType(item.getFoodType());
+			selectedItem.setQuantity(item.getQuantity());
+		}
+		
+		fridgeRepo.save(selectedItem);
+		
 		return "redirect:/food";
 	}
 }

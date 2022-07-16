@@ -4,14 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class FridgeItem {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	
+	@NotEmpty(message="This field cannot be empty")
+	@Size(max=20, message="Name cannot exceed 20 characters")
 	private String name;
+	
+	@NotEmpty(message="This field cannot be empty")
+	@Size(max=20, message="Name cannot exceed 20 characters")
 	private String foodType;
+	
+	@Min(value=0, message="Minimum quantity must be 0")
 	private int quantity;
 
 	protected FridgeItem() {}
@@ -44,7 +55,7 @@ public class FridgeItem {
 		return foodType;
 	}
 	
-	public void setfoodType(String foodType) {
+	public void setFoodType(String foodType) {
 		this.foodType = foodType;
 	}
 	

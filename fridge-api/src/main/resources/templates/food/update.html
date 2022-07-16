@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Add a new food item</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<h1>New food</h1>
+    <form th:action="@{/food/update/{id}(id=${editItem.id})}" th:object="${editItem}" method="post">
+    
+    <label for="name">Name</label>
+    <input type="text" 
+    th:field="*{name}" 
+    id="name" 
+    th:value="${editItem.getName()}">
+    
+    <label for="name">Type of Food</label>
+    <input type="text" 
+    th:field="*{foodType}" 
+    id="foodType" 
+    th:value="${editItem.getFoodType()}">
+    
+    <label for="name">Quantity</label>
+    <input type="number" 
+    th:field="*{quantity}" 
+    id="name" 
+    th:value="${editItem.getQuantity()}">
+    
+    <input href = "/food" type="submit" value="Update">   
+</form>
+</body>
+</html>
