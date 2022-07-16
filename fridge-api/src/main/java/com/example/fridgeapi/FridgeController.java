@@ -9,7 +9,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.validation.BindingResult;
 
 @Controller
@@ -87,5 +93,29 @@ public class FridgeController {
 		fridgeRepo.save(selectedItem);
 		
 		return "redirect:/food";
+	}
+	
+	@GetMapping(value="/search")
+	public String searchEvents(Model model, @RequestParam(value="q") String q) {
+		
+		String searchString = "\\b" + q + "\\b";
+
+		Pattern pattern = Pattern.compile(searchString, Pattern.CASE_INSENSITIVE);
+		Matcher m;
+		
+		Iterable<FridgeItem> items = fridgeRepo.findAll();
+		ArrayList<FridgeItem> matches = new ArrayList<FridgeItem>();
+		
+		for(FridgeItem item : items) {
+			m = pattern.matcher(item.getName());
+		    boolean matchFound = m.find();
+		    if(matchFound) {
+		    	matches.add(item);
+		    }
+		}
+		
+		model.addAttribute("itemMatches", matches);
+		
+		return "food/search";
 	}
 }
